@@ -1,16 +1,10 @@
-import re
-
 
 """
 Check if string contains a pair of any two letters that appears at least twice in the string without
 overlapping, like xyxy (xy) or aabcdefgaa (aa), but not like aaa (aa, but it overlaps)
 """
-def check_repeat(entry):
-    i = 0
-    while i < (len(entry) - 3):
-        repeats = re.findall(entry[i:(i+1)], entry)
-        i += 1
-    print(repeats)
+# def check_repeat(entry):
+
 
 
 """
@@ -39,11 +33,10 @@ with open("C:\\Development\\Python\\adventOfCode\\solutions\\day5\\input.txt", '
     puzzleInput = inputFile.read().splitlines()
 
 for i in puzzleInput:
-    check_repeat(i)
-    # if check_split_pair(i):
-    #     nice += 1
+    if check_split_pair(i):
+        nice += 1
     # if check_pairs(i) and check_split_repeat(i):
     #     nice += 1
 
 print(nice)
-
+print(splits)
