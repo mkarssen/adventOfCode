@@ -1,4 +1,4 @@
-with open("./solutions/day2/input.txt", 'r') as inputFile:
+with open("./solutions/day2/day5input.txt", 'r') as inputFile:
     puzzleInput = inputFile.read().splitlines()
 
 totalRibbon = 0

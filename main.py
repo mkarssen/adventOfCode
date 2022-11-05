@@ -8,8 +8,10 @@ overlapping, like xyxy (xy) or aabcdefgaa (aa), but not like aaa (aa, but it ove
 def check_repeat(entry):
     i = 0
     while i < (len(entry) - 3):
-        repeats = re.findall(entry[i:(i+1)], entry)
+        if (entry[i:i+1] in entry[i+2:]):
+            repeats = True
         i += 1
+    print(entry)
     print(repeats)
 
 
@@ -35,7 +37,7 @@ def check_split_pair(entry):
 nice = 0
 splits = []
 
-with open("C:\\Development\\Python\\adventOfCode\\solutions\\day5\\input.txt", 'r') as inputFile:
+with open("C:\Development\Python\\adventOfCode\solutions\day5\day5input.txt", 'r') as inputFile:
     puzzleInput = inputFile.read().splitlines()
 
 for i in puzzleInput:

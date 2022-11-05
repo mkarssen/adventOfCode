@@ -29,7 +29,7 @@ def check_split_pair(entry):
 nice = 0
 splits = []
 
-with open("C:\\Development\\Python\\adventOfCode\\solutions\\day5\\input.txt", 'r') as inputFile:
+with open("/solutions/day5/day5input.txt", 'r') as inputFile:
     puzzleInput = inputFile.read().splitlines()
 
 for i in puzzleInput:

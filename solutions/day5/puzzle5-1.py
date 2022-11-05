@@ -7,6 +7,7 @@
         dvszwmarrgswjxmb
 """
 
+import sqlite3 as sql
 
 def check_vowels(entry):
     vowels = 0
@@ -40,13 +41,65 @@ def check_sequence(entry):
         return True
 
 
-nice = 0
+niceID = 1
+naughtyID = 1
+niceCount = 0
+nice = []
+naughty = []
 
-with open("C:/Development/Python/adventOfCode/solutions/day5/input.txt", 'r') as inputFile:
+# Create temporary database in memory
+db = sql.connect(":memory:")
+print("Database created in RAM")
+
+# Create table of recipients with attributes for each Nice/Naughty criterion
+db.execute('''CREATE TABLE NICE
+    (ID INT PRIMARY KEY NOT NULL,
+    RECIP TEXT NOT NULL,
+    VOWELS TEXT NOT NULL,
+    DOUBLE TEXT NOT NULL,
+    SEQUENCE TEXT NOT NULL);''')
+print("SQL Table Created: NICE")
+
+db.execute('''CREATE TABLE NAUGHTY
+    (ID INT PRIMARY KEY NOT NULL,
+    RECIP TEXT NOT NULL,
+    VOWELS TEXT NOT NULL,
+    DOUBLE TEXT NOT NULL,
+    SEQUENCE TEXT NOT NULL);''')
+print("SQL Table Created: NAUGHTY")
+
+# Open input file and split the lines into a list
+with open("C:\Development\Python\\adventOfCode\solutions\day5\day5input.txt", 'r') as inputFile:
     puzzleInput = inputFile.read().splitlines()
 
-for i in puzzleInput:
-    if check_double(i) and check_sequence(i) and check_vowels(i):
-        nice += 1
 
-print(nice)
+for i in puzzleInput:
+    double = check_double(i)
+    sequence = check_sequence(i)
+    vowels = check_vowels(i)
+    if double and sequence and vowels:
+        db.execute("INSERT INTO NICE(ID,RECIP,VOWELS,DOUBLE,SEQUENCE) VALUES (?, ?, ?, ?, ?)",
+                   (niceID, str(i), str(double), str(sequence), str(vowels)))
+        niceID += 1
+        niceCount += 1
+        nice.append(i)
+    else:
+        db.execute("INSERT INTO NAUGHTY(ID,RECIP,VOWELS,DOUBLE,SEQUENCE) VALUES (?, ?, ?, ?, ?)",
+                   (naughtyID, str(i), str(double), str(sequence), str(vowels)))
+        naughtyID += 1
+        naughty.append(i)
+
+cursor = db.execute('''SELECT ID, RECIP, VOWELS, DOUBLE, SEQUENCE FROM NICE''')
+
+
+for row in cursor:
+    print("ID: ", row[0])
+    print("Recipient: ", row[1])
+    print("Vowel Test Passed: ", row[2])
+    print("Double Test Passed: ", row[3])
+    print("Sequence Test Passed: ", row[4])
+
+
+print(niceCount)
+
+db.close()
